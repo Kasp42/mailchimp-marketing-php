@@ -6666,15 +6666,15 @@ class ListsApi
         );
     }
 
-    public function getListWebhooks($list_id)
+    public function getListWebhooks($list_id, $count = '10', $offset = '0')
     {
-        $response = $this->getListWebhooksWithHttpInfo($list_id);
+        $response = $this->getListWebhooksWithHttpInfo($list_id, $count, $offset);
         return $response;
     }
 
-    public function getListWebhooksWithHttpInfo($list_id)
+    public function getListWebhooksWithHttpInfo($list_id, $count = '10', $offset = '0')
     {
-        $request = $this->getListWebhooksRequest($list_id);
+        $request = $this->getListWebhooksRequest($list_id, $count, $offset);
 
         try {
             $options = $this->createHttpClientOption();
@@ -6710,7 +6710,7 @@ class ListsApi
         }
     }
 
-    protected function getListWebhooksRequest($list_id)
+    protected function getListWebhooksRequest($list_id, $count = '10', $offset = '0')
     {
         // verify the required parameter 'list_id' is set
         if ($list_id === null || (is_array($list_id) && count($list_id) === 0)) {
@@ -6733,6 +6733,15 @@ class ListsApi
                 ObjectSerializer::toPathValue($list_id),
                 $resourcePath
             );
+        }
+
+        // query params
+        if ($count !== null) {
+            $queryParams['count'] = ObjectSerializer::toQueryValue($count);
+        }
+        // query params
+        if ($offset !== null) {
+            $queryParams['offset'] = ObjectSerializer::toQueryValue($offset);
         }
 
         // body params
